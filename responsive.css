@@ -1,0 +1,130 @@
+/* ===============================================
+   Smart Village - تحسينات للشاشات الصغيرة
+   Created by Momen Aboud
+   =============================================== */
+
+   @media (max-width: 768px) {
+    .nav-tabs {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+    
+    .nav-tab {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .voice-message {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #smart-village-app {
+        padding: 10px;
+    }
+    
+    .nav-tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .nav-tab {
+        flex: 1 1 auto;
+        text-align: center;
+        font-size: 0.7rem;
+        padding: 6px 8px;
+    }
+    
+    .glass-card {
+        padding: 15px;
+    }
+    
+    .vitals-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .vital-item {
+        justify-content: space-between;
+    }
+    
+    .dialect-input-area {
+        flex-direction: column;
+    }
+    
+    .dialect-btn {
+        padding: 12px;
+    }
+    
+    .phrase-chip {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
+    
+    .village-grid {
+        gap: 3px;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .prophet-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .signature-glow {
+        font-size: 1rem;
+        padding: 15px;
+    }
+}
+
+/* تحسينات للشاشات الكبيرة */
+@media (min-width: 1200px) {
+    #smart-village-app {
+        max-width: 1400px;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* دعم الوضع الليلي */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #0a0f1e;
+    }
+}
+
+/* تحسينات للطباعة */
+@media print {
+    .neural-universe,
+    .nav-tabs,
+    .speaker-btn,
+    .dialect-btn {
+        display: none;
+    }
+    
+    .glass-card {
+        border: 1px solid black;
+        background: white;
+        color: black;
+    }
+}

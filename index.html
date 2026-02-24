@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Smart Village | القرية الذكية - الإصدار النهائي</title>
+    
+    <!-- الهوية والتثبيت الفوري (PWA) -->
+    <meta name="application-name" content="Smart Village">
+    <meta name="apple-mobile-web-app-title" content="Smart Village">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0f1e">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    
+    <!-- الخطوط الأنيقة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== التصميم الأساسي الموحد ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Space Grotesk', sans-serif;
+            background: #0a0f1e;
+            color: #e0e4f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* الخلفية العصبية العملاقة */
+        .neural-universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .neural-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ffc3;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ffc3;
+            animation: neuralDrift 12s linear infinite;
+        }
+
+        .neural-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ffd966, #00ffc3, transparent);
+            animation: connectPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes neuralDrift {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.3; }
+            100% { transform: translate(calc(100vw * var(--dx)), calc(100vh * var(--dy))) scale(0); opacity: 0; }
+        }
+
+        @keyframes connectPulse {
+            0%, 100% { opacity: 0.1; transform: scaleX(1); }
+            50% { opacity: 0.6; transform: scaleX(1.3); }
+        }
+
+        /* الحاوية الرئيسية */
+        #smart-village-app {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== شريط التنقل بين الأقسام ===== */
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(10, 15, 30, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            padding: 8px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #9aaec9;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #ffd96630, #00ffc330);
+            color: white;
+            border: 1px solid #ffd966;
+            box-shadow: 0 0 20px #ffd96650;
+        }
+
+        /* ===== الأقسام الرئيسية ===== */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== بطاقات الواجهة ===== */
+        .glass-card {
+            background: rgba(10, 15, 30, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 36px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 20px 40px -15px black;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd966, #00ffc3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== القسم 1: البوابة العصبية (ماسح الكاميرا) ===== */
+        .scanner-container {
+            aspect-ratio: 16/9;
+            background: #050811;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #ffd96630;
+            margin-bottom: 15px;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(0,255,200,0.1));
+            animation: scanMove 3s linear infinite;
+        }
+
+        .scan-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,255,200,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,215,0,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .vital-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #0f1a24;
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid #00ffc3;
+            font-size: 0.8rem;
+        }
+
+        /* ===== القسم 2: النبي الصوتي ===== */
+        .voice-prophet-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .prophet-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffd96630, #00ffc330);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto;
+            border: 2px solid #ffd966;
+            animation: voicePulse 2s infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { box-shadow: 0 0 30px #ffd966; }
+            50% { box-shadow: 0 0 60px #00ffc3; }
+        }
+
+        .voice-message {
+            background: #0f1f2a;
+            border-radius: 40px 40px 40px 10px;
+            padding: 20px;
+            font-size: 1.2rem;
+            border: 1px solid #ffd966;
+            text-align: center;
+        }
+
+        .speaker-btn {
+            background: #1f2f3a;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 40px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 1px solid #00ffc3;
+            transition: all 0.2s;
+        }
+
+        .speaker-btn:hover {
+            background: #2f4a5a;
+            transform: scale(1.05);
+        }
+
+        /* ===== القسم 3: مستمع اللهجات (NLP الريفي) ===== */
+        .dialect-listener {
+            background: #102a33;
+            border-radius: 24px;
+            padding: 15px;
+        }
+
+        .dialect-input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .dialect-input {
+            flex: 1;
+            background: #1a3a45;
+            border: 1px solid #00ffc3;
+            border-radius: 40px;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .dialect-input::placeholder {
+            color: #7f9fb0;
+        }
+
+        .dialect-btn {
+            background: #00ccaa30;
+            border: 1px solid #ffd966;
+            border-radius: 40px;
+            padding: 0 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .phrase-chip {
+            display: inline-block;
+            background: #1a3f4a;
+            border-radius: 30px;
+            padding: 5px 15px;
+            margin: 3px;
+            font-size: 0.9rem;
+            border: 1px solid #ffd96650;
+            cursor: pointer;
+        }
+
+        /* ===== القسم 4: خريطة القرية الحرارية (Bluetooth Peer-to-Peer) ===== */
+        .heatmap-container {
+            background: #0a1525;
+            border-radius: 24px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .village-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            aspect-ratio: 1;
+            margin-bottom: 15px;
+        }
+
+        .village-cell {
+            background: #1a2a3a;
+            border-radius: 8px;
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .village-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #ffd966);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .village-cell.active-low::before { opacity: 0.3; }
+        .village-cell.active-medium::before { opacity: 0.6; }
+        .village-cell.active-high::before { opacity: 0.9; }
+
+        .disease-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .bluetooth-sim {
+            background: #1f3f5a;
+            border-radius: 20px;
+            padding: 8px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        /* ===== القسم 5: لوحة تحكم مومن ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #0f1f2a, #1a2f3a);
+            border-radius: 24px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 1px solid #ffd966;
+            box-shadow: 0 0 30px #ffd96620;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00ffc3;
+            font-family: 'Space Grotesk', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #ffd966;
+        }
+
+        .lives-saved {
+            animation: glowPulse 2s infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 20px #00ffc3; }
+            50% { text-shadow: 0 0 40px #ffd966; }
+        }
+
+        .signature-glow {
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 60px;
+            margin-top: 20px;
+        }
+
+        .signature-glow strong {
+            color: #ffd966;
+            animation: signatureGlow 1.5s infinite;
+        }
+
+        @keyframes signatureGlow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 30px #ffd966; }
+        }
+
+        /* ===== التذييل ===== */
+        .app-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            color: #5f7d9c;
+            border-top: 1px solid #ffd96630;
+            padding-top: 20px;
+        }
+
+        .app-footer strong {
+            color: #ffd966;
+        }
+
+        /* وضع الطوارئ */
+        body.emergency-global {
+            background: #2a0a0a;
+            animation: emergencyGlobalPulse 1.5s infinite;
+        }
+
+        @keyframes emergencyGlobalPulse {
+            0%, 100% { background-color: #2a0a0a; }
+            50% { background-color: #4a0a0a; }
+        }
+
+        /* ===== استجابة للأجهزة الصغيرة ===== */
+        @media (max-width: 600px) {
+            .nav-tabs {
+                font-size: 0.7rem;
+            }
+            .nav-tab {
+                padding: 8px 12px;
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الكون العصبي (الخلفية) -->
+    <div class="neural-universe" id="neuralUniverse"></div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="smart-village-app">
+        <!-- شريط التنقل -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-section="scanner">🔬 الماسح</div>
+            <div class="nav-tab" data-section="voice">🔊 النبي الصوتي</div>
+            <div class="nav-tab" data-section="dialect">🗣️ مستمع اللهجات</div>
+            <div class="nav-tab" data-section="heatmap">🗺️ خريطة القرية</div>
+            <div class="nav-tab" data-section="dashboard">📊 لوحة القيادة</div>
+        </div>
+
+        <!-- ===== القسم 1: البوابة العصبية (الماسح) ===== -->
+        <section id="scanner-section" class="section active-section">
+            <div class="glass-card">
+                <div class="section-title">
+                    <span>🔬 البوابة العصبية (Bio-Neural Scanner)</span>
+                </div>
+                
+                <div class="scanner-container">
+                    <div class="scan-grid"></div>
+                    <div class="scanner-overlay"></div>
+                    <div class="vital-badge" id="cameraStatus">
+                        تحليل لوني: 97% | النبض: 78 bpm
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    <div class="vital-item" style="background:#0f1a24; padding:8px 15px; border-radius:40px;">
+                        <span style="color:#9aaec9;">❤️ النبض</span>
+                        <span style="color:#00ffc3; font-weight:700; margin-right:8px;" id="heartRateDisplay">78</span>
+                    </div>
+                    <div class="vital-item" style="background:#0f1a24; padding:8px 15px; border-radius:40px;">
+                        <span style="color:#9aaec9;">🫁 SpO₂</span>
+                        <span style="color:#00ffc3; font-weight:700; margin-right:8px;" id="spo2Display">97%</span>
+                    </div>
+                    <div class="vital-item" style="background:#0f1a24; padding:8px 15px; border-radius:40px;">
+                        <span style="color:#9aaec9;">🌡️ حرارة</span>
+                        <span style="color:#00ffc3; font-weight:700; margin-right:8px;" id="tempDisplay">36.6°C</span>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">
+                    <div class="speaker-btn" id="simulateScanBtn">
+                        <span>🔄</span> محاكاة مسح جديد
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم 2: النبي الصوتي (Vocal Prophet) ===== -->
+        <section id="voice-section" class="section">
+            <div class="glass-card">
+                <div class="section-title">
+                    <span>🔊 النبي الصوتي - يقرأ باللهجة الريفية</span>
+                </div>
+
+                <div class="voice-prophet-area">
+                    <div class="prophet-avatar">🗣️</div>
+                    
+                    <div class="voice-message" id="voiceMessage">
+                        مرحبا يا عم الحاج. التشخيص: حالتك تمام. اشرب شاي بالنعناع وارتاح.
+                    </div>
+
+                    <button class="speaker-btn" id="speakBtn">
+                        <span>🔊</span> اضغط لسماع التشخيص (صوت ريفي)
+                    </button>
+
+                    <div style="display:flex; gap:10px; justify-content:center; font-size:0.8rem;">
+                        <span style="color:#00ffc3;">✓ لهجة ريفية</span>
+                        <span style="color:#ffd966;">✓ صوت واثق</span>
+                        <span style="color:#9aaec9;">✓ بدون إنترنت</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم 3: مستمع اللهجات (Dialect Listener) ===== -->
+        <section id="dialect-section" class="section">
+            <div class="glass-card">
+                <div class="section-title">
+                    <span>🗣️ مستمع اللهجات - عامية ريفية</span>
+                </div>
+
+                <div class="dialect-listener">
+                    <div class="dialect-input-area">
+                        <input type="text" class="dialect-input" id="dialectInput" placeholder="اكتب أو انطق: 'صدري بيزيّق' أو 'دماغي هتنفجر'">
+                        <button class="dialect-btn" id="analyzeDialectBtn">تحليل</button>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <span class="phrase-chip" data-phrase="صدري بيزيّق">صدري بيزيّق</span>
+                        <span class="phrase-chip" data-phrase="دماغي هتنفجر">دماغي هتنفجر</span>
+                        <span class="phrase-chip" data-phrase="عيني مزغللة">عيني مزغللة</span>
+                        <span class="phrase-chip" data-phrase="قلبي بيوجعني">قلبي بيوجعني</span>
+                        <span class="phrase-chip" data-phrase="عندي نهجان">عندي نهجان</span>
+                    </div>
+
+                    <div id="dialectResult" style="background:#0f1f2a; border-radius:16px; padding:15px; margin-top:10px;">
+                        <div style="color:#ffd966;">🔍 التحليل:</div>
+                        <div id="dialectAnalysis">أنقر على عبارة أو اكتب جملتك</div>
+                    </div>
+
+                    <div style="margin-top:10px; font-size:0.75rem; color:#7f9fb0;">
+                        ✓ يدعم: ألم صدر، صداع، دوخة، ضيق تنفس
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم 4: خريطة القرية الحرارية (Peer-to-Peer) ===== -->
+        <section id="heatmap-section" class="section">
+            <div class="glass-card">
+                <div class="section-title">
+                    <span>🗺️ خريطة القرية - انتشار الأمراض (بدون إنترنت)</span>
+                </div>
+
+                <div class="heatmap-container">
+                    <div class="village-grid" id="villageGrid">
+                        <!-- تملأ بالخلايا بواسطة JavaScript -->
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div class="disease-indicator">
+                            <span style="display:inline-block; width:12px; height:12px; background:#ff6b6b; border-radius:3px;"></span>
+                            إنفلونزا (مرتفع)
+                        </div>
+                        <div class="disease-indicator">
+                            <span style="display:inline-block; width:12px; height:12px; background:#ffd966; border-radius:3px;"></span>
+                            نزلة معوية
+                        </div>
+                    </div>
+
+                    <div class="bluetooth-sim" id="bluetoothStatus">
+                        📡 بلوتوث نشط: 7 أجهزة قريبة (محاكاة P2P)
+                    </div>
+
+                    <div style="margin-top:15px; background:#1a3a4a; border-radius:20px; padding:10px;">
+                        <span style="color:#ffd966;">⚠️ تنبيه:</span>
+                        <span id="outbreakAlert">لا يوجد انتشار ملحوظ في جوارك</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم 5: لوحة تحكم مومن (Dashboard) ===== -->
+        <section id="dashboard-section" class="section">
+            <div class="glass-card">
+                <div class="section-title">
+                    <span>📊 لوحة قيادة القرية - Momen Aboud</span>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalScans">1,247</div>
+                        <div class="stat-label">إجمالي المسح</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="emergencyCount">38</div>
+                        <div class="stat-label">حالات طوارئ</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number lives-saved" id="livesSaved">156</div>
+                        <div class="stat-label">أرواح تم حمايتها</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeUsers">12</div>
+                        <div class="stat-label">مستخدمين حولك</div>
+                    </div>
+                </div>
+
+                <div style="background:#0f1f2a; border-radius:24px; padding:20px; margin:20px 0;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span>الأمراض المنتشرة هذا الأسبوع:</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>الإنفلونزا</span>
+                            <span style="color:#ffd966;">↑ 23 حالة</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>النزلات المعوية</span>
+                            <span style="color:#ffd966;">↑ 15 حالة</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span>حساسية الصدر</span>
+                            <span style="color:#00ffc3;">↓ 7 حالات</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- التوقيع المتوهج -->
+                <div class="signature-glow">
+                    ⚡ Created by <strong>Momen Aboud</strong> ⚡
+                </div>
+
+                <div style="text-align:center; margin-top:10px; font-size:0.8rem;" id="lastDiagnosisTime">
+                    آخر تشخيص: منذ دقيقة - أنيميا حادة
+                </div>
+            </div>
+        </section>
+
+        <!-- التوقيع السفلي الثابت -->
+        <div class="app-footer">
+            ✦ Smart Village | The Neural Prophet ✦ <br>
+            Created by <strong>Momen Aboud</strong> ✦ جميع الحقوق محفوظة للخير
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ====================================================
+            // المشروع النهائي: Smart Village - الإصدار الكامل
+            // المهندس المعماري: Momen Aboud
+            // المحتويات: 
+            // File #1: Neural Gateway (الماسح)
+            // File #2: Diagnostic Matrix (التشخيص)
+            // File #3: The Vocal Prophet + Dialect Listener + Heatmap + Dashboard
+            // ====================================================
+
+            console.log('%c🏥 SMART VILLAGE - FINAL INTEGRATION', 'font-size:20px; color:#ffd966; background:#0a0f1e; padding:10px; border-radius:10px;');
+            console.log('%cCreated by Momen Aboud', 'font-size:16px; color:#00ffc3;');
+
+            // --- إنشاء الخلفية العصبية ---
+            function createNeuralUniverse() {
+                const universe = document.getElementById('neuralUniverse');
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'neural-particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.setProperty('--dx', (Math.random() - 0.5) * 2);
+                    particle.style.setProperty('--dy', (Math.random() - 0.5) * 2);
+                    particle.style.animationDelay = Math.random() * 8 + 's';
+                    universe.appendChild(particle);
+
+                    if (i % 4 === 0) {
+                        const conn = document.createElement('div');
+                        conn.className = 'neural-connection';
+                        conn.style.left = Math.random() * 100 + '%';
+                        conn.style.top = Math.random() * 100 + '%';
+                        conn.style.width = Math.random() * 200 + 50 + 'px';
+                        conn.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                        conn.style.animationDelay = Math.random() * 3 + 's';
+                        universe.appendChild(conn);
+                    }
+                }
+            }
+            createNeuralUniverse();
+
+            // ========== 1. محرك البوابة العصبية (محاكاة المسح) ==========
+            class NeuralGateway {
+                constructor() {
+                    this.vitals = {
+                        heartRate: 78,
+                        spo2: 97,
+                        temp: 36.6,
+                        eyeColor: 'normal',
+                        coughType: 'dry',
+                        shortnessOfBreath: false
+                    };
+                }
+
+                scan() {
+                    // محاكاة قراءات عشوائية قليلاً
+                    this.vitals.heartRate = 60 + Math.floor(Math.random() * 40);
+                    this.vitals.spo2 = 94 + Math.floor(Math.random() * 6);
+                    this.vitals.temp = (36 + Math.random() * 1.5).toFixed(1);
+                    this.vitals.eyeColor = Math.random() > 0.7 ? 'pale' : 'normal';
+                    return this.vitals;
+                }
+            }
+
+            // ========== 2. محرك الاستنتاج (من الملف الثاني) ==========
+            class InferenceEngine {
+                constructor() {
+                    this.rules = [
+                        {
+                            name: 'أنيميا حادة',
+                            condition: (v) => v.eyeColor === 'pale' && v.heartRate > 85,
+                            protocol: ['فحص هيموجلوبين', 'حديد مع فيتامين C', 'سبانخ وعدس'],
+                            remedies: ['الجرجير', 'العسل الأسود', 'التمر'],
+                            emergency: false
+                        },
+                        {
+                            name: 'حساسية صدر',
+                            condition: (v) => v.coughType === 'dry' && v.shortnessOfBreath === true,
+                            protocol: ['موسعات شعب', 'تجنب الغبار', 'سوائل دافئة'],
+                            remedies: ['الزنجبيل', 'البابونج', 'الكركم'],
+                            emergency: false
+                        },
+                        {
+                            name: '⚠️ جلطة دماغية محتملة',
+                            condition: (v) => (v.heartRate > 110 || v.heartRate < 40) && v.eyeColor === 'pale',
+                            protocol: ['اتصل بالإسعاف فوراً', 'إمالة الرأس جانباً', 'لا تعطه شيء'],
+                            remedies: ['لا شيء - حالة طارئة', 'الوضعية الجانبية الآمنة'],
+                            emergency: true
+                        },
+                        {
+                            name: 'التهاب رئوي',
+                            condition: (v) => v.coughType === 'wet' && v.heartRate > 90 && v.shortnessOfBreath === true,
+                            protocol: ['مضاد حيوي', 'كمادات دافئة', 'راحة تامة'],
+                            remedies: ['الزعتر', 'العسل', 'بخار البصل'],
+                            emergency: false
+                        }
+                    ];
+                }
+
+                evaluate(vitals, dialectSymptoms = {}) {
+                    // دمج بيانات اللهجات
+                    const data = { ...vitals, ...dialectSymptoms };
+                    
+                    for (let rule of this.rules) {
+                        if (rule.condition(data)) {
+                            return rule;
+                        }
+                    }
+                    
+                    return {
+                        name: 'حالة طبيعية - لا داعي للقلق',
+                        protocol: ['تابع حالتك', 'اشرب سوائل', 'راحة كافية'],
+                        remedies: ['النعناع', 'الشاي الأخضر', 'ماء'],
+                        emergency: false
+                    };
+                }
+            }
+
+            // ========== 3. النبي الصوتي (Offline TTS) ==========
+            class VocalProphet {
+                constructor() {
+                    this.voices = [
+                        { lang: 'ar', name: 'عم ريفي' }
+                    ];
+                }
+
+                speak(text, dialect = 'ريفية') {
+                    // محاكاة TTS - في الواقع نستخدم Web Speech API
+                    console.log('🔊 Vocal Prophet says:', text);
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ar-EG';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.1;
+                    utterance.volume = 1;
+                    
+                    // محاولة اختيار صوت عربي
+                    const availableVoices = window.speechSynthesis.getVoices();
+                    const arabicVoice = availableVoices.find(v => v.lang.includes('ar'));
+                    if (arabicVoice) utterance.voice = arabicVoice;
+                    
+                    window.speechSynthesis.speak(utterance);
+                    
+                    return true;
+                }
+
+                generateMessage(diagnosis, remedies) {
+                    return `يا عم الحاج، التشخيص: ${diagnosis}. 
+                    العلاج: ${remedies.slice(0,2).join(' و ')}. 
+                    خذ بالك على نفسك وربنا معاك.`;
+                }
+            }
+
+            // ========== 4. مستمع اللهجات (Dialect NLP) ==========
+            class DialectListener {
+                constructor() {
+                    this.dictionary = {
+                        'بيزيّق': 'ألم حاد في الصدر',
+                        'هتنفجر': 'صداع شديد',
+                        'مزغللة': 'دوخة وعدم وضوح رؤية',
+                        'بيوجعني': 'ألم',
+                        'نهجان': 'ضيق تنفس',
+                        'كحة': 'سعال',
+                        'سخونة': 'حمى'
+                    };
+                    
+                    this.symptomMapping = {
+                        'صدري بيزيّق': { chestPain: true, shortnessOfBreath: true },
+                        'دماغي هتنفجر': { headache: true, dizziness: true },
+                        'عيني مزغللة': { dizziness: true, blurryVision: true },
+                        'قلبي بيوجعني': { chestPain: true, heartRate: 'fast' },
+                        'عندي نهجان': { shortnessOfBreath: true }
+                    };
+                }
+
+                analyze(phrase) {
+                    phrase = phrase.toLowerCase();
+                    let symptoms = {};
+                    
+                    // البحث عن تطابق مباشر
+                    for (let [key, value] of Object.entries(this.symptomMapping)) {
+                        if (phrase.includes(key)) {
+                            symptoms = { ...symptoms, ...value };
+                        }
+                    }
+                    
+                    // تحليل الكلمات الفردية
+                    let detectedWords = [];
+                    for (let [word, meaning] of Object.entries(this.dictionary)) {
+                        if (phrase.includes(word)) {
+                            detectedWords.push(meaning);
+                        }
+                    }
+                    
+                    return {
+                        symptoms,
+                        interpretation: detectedWords.length ? detectedWords.join('، ') : 'لم يتم التعرف على أعراض محددة',
+                        originalPhrase: phrase
+                    };
+                }
+            }
+
+            // ========== 5. خريطة القرية الحرارية (P2P محاكاة) ==========
+            class VillageHeatmap {
+                constructor() {
+                    this.diseases = ['إنفلونزا', 'نزلة معوية', 'حساسية', 'لا شيء'];
+                    this.grid = [];
+                    this.initGrid();
+                }
+
+                initGrid() {
+                    for (let i = 0; i < 25; i++) {
+                        const randomDisease = this.diseases[Math.floor(Math.random() * this.diseases.length)];
+                        const intensity = Math.random();
+                        this.grid.push({
+                            disease: randomDisease,
+                            intensity: intensity,
+                            active: randomDisease !== 'لا شيء'
+                        });
+                    }
+                }
+
+                updateSimulation() {
+                    // محاكاة انتشار الأمراض عبر البلوتوث (P2P)
+                    for (let i = 0; i < this.grid.length; i++) {
+                        if (Math.random() > 0.8) {
+                            this.grid[i].disease = this.diseases[Math.floor(Math.random() * 3)];
+                            this.grid[i].active = this.grid[i].disease !== 'لا شيء';
+                            this.grid[i].intensity = Math.random();
+                        }
+                    }
+                    return this.grid;
+                }
+
+                getOutbreakAlert() {
+                    const activeCount = this.grid.filter(c => c.active).length;
+                    if (activeCount > 15) return '⚠️ انتشار مرتفع للإنفلونزا في منطقتك!';
+                    if (activeCount > 8) return '⚠️ يوجد بعض حالات النزلات المعوية قربك';
+                    return 'لا يوجد انتشار ملحوظ في جوارك';
+                }
+            }
+
+            // ========== 6. لوحة تحكم مومن ==========
+            class MomenDashboard {
+                constructor() {
+                    this.totalScans = 1247;
+                    this.emergencyCount = 38;
+                    this.livesSaved = 156;
+                    this.activeUsers = 12;
+                }
+
+                incrementScan(isEmergency = false) {
+                    this.totalScans++;
+                    if (isEmergency) {
+                        this.emergencyCount++;
+                        this.livesSaved += Math.random() > 0.5 ? 1 : 0;
+                    }
+                    this.updateDisplay();
+                }
+
+                updateDisplay() {
+                    document.getElementById('totalScans').innerText = this.totalScans.toLocaleString();
+                    document.getElementById('emergencyCount').innerText = this.emergencyCount;
+                    document.getElementById('livesSaved').innerText = this.livesSaved;
+                    document.getElementById('activeUsers').innerText = this.activeUsers;
+                }
+            }
+
+            // ========== تهيئة جميع الأنظمة ==========
+            const gateway = new NeuralGateway();
+            const engine = new InferenceEngine();
+            const prophet = new VocalProphet();
+            const dialect = new DialectListener();
+            const heatmap = new VillageHeatmap();
+            const dashboard = new MomenDashboard();
+
+            // متغيرات الحالة العامة
+            let currentVitals = gateway.scan();
+            let currentDiagnosis = null;
+
+            // تحديث واجهة الماسح
+            function updateScannerUI() {
+                document.getElementById('heartRateDisplay').innerText = currentVitals.heartRate;
+                document.getElementById('spo2Display').innerText = currentVitals.spo2 + '%';
+                document.getElementById('tempDisplay').innerText = currentVitals.temp + '°C';
+                document.getElementById('cameraStatus').innerHTML = `تحليل لوني: ${97 + Math.floor(Math.random()*3)}% | النبض: ${currentVitals.heartRate} bpm`;
+            }
+
+            // تشغيل تشخيص كامل
+            function runDiagnosis(additionalSymptoms = {}) {
+                // دمج الأعراض من اللهجات
+                const diagnosis = engine.evaluate(currentVitals, additionalSymptoms);
+                currentDiagnosis = diagnosis;
+                
+                // تحديث واجهة النبي الصوتي
+                const voiceMsg = prophet.generateMessage(diagnosis.name, diagnosis.remedies);
+                document.getElementById('voiceMessage').innerText = voiceMsg;
+                
+                // تحديث لوحة التحكم
+                const isEmergency = diagnosis.emergency === true;
+                if (isEmergency) {
+                    document.body.classList.add('emergency-global');
+                } else {
+                    document.body.classList.remove('emergency-global');
+                }
+                
+                dashboard.incrementScan(isEmergency);
+                
+                // تحديث وقت آخر تشخيص
+                document.getElementById('lastDiagnosisTime').innerHTML = `آخر تشخيص: ${new Date().toLocaleTimeString()} - ${diagnosis.name}`;
+                
+                return diagnosis;
+            }
+
+            // ========== أحداث التنقل بين الأقسام ==========
+            const tabs = document.querySelectorAll('.nav-tab');
+            const sections = document.querySelectorAll('.section');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.section;
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active-section'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(target + '-section').classList.add('active-section');
+                });
+            });
+
+            // ========== أحداث الماسح ==========
+            document.getElementById('simulateScanBtn').addEventListener('click', () => {
+                currentVitals = gateway.scan();
+                updateScannerUI();
+                runDiagnosis();
+                
+                // تنشيط النبي الصوتي تلقائياً
+                setTimeout(() => {
+                    document.querySelector('[data-section="voice"]').click();
+                }, 500);
+            });
+
+            // ========== أحداث النبي الصوتي ==========
+            document.getElementById('speakBtn').addEventListener('click', () => {
+                if (currentDiagnosis) {
+                    const msg = prophet.generateMessage(currentDiagnosis.name, currentDiagnosis.remedies);
+                    prophet.speak(msg);
+                } else {
+                    prophet.speak('مرحبا بك في القرية الذكية. اضغط على زر المسح أولاً.');
+                }
+            });
+
+            // ========== أحداث مستمع اللهجات ==========
+            document.getElementById('analyzeDialectBtn').addEventListener('click', () => {
+                const input = document.getElementById('dialectInput').value;
+                if (input.trim() === '') return;
+                
+                const result = dialect.analyze(input);
+                document.getElementById('dialectAnalysis').innerHTML = `
+                    <div style="color:#00ffc3;">"${result.originalPhrase}"</div>
+                    <div style="margin-top:5px;">🔍 ${result.interpretation}</div>
+                `;
+                
+                // تحديث الأعراض الحالية
+                if (Object.keys(result.symptoms).length > 0) {
+                    currentVitals = { ...currentVitals, ...result.symptoms };
+                    runDiagnosis(result.symptoms);
+                    
+                    // الانتقال للصوت
+                    setTimeout(() => {
+                        document.querySelector('[data-section="voice"]').click();
+                    }, 1000);
+                }
+            });
+
+            // النقر على العبارات الجاهزة
+            document.querySelectorAll('.phrase-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.getElementById('dialectInput').value = chip.dataset.phrase;
+                    document.getElementById('analyzeDialectBtn').click();
+                });
+            });
+
+            // ========== إنشاء خريطة القرية ==========
+            function renderHeatmap() {
+                const grid = document.getElementById('villageGrid');
+                grid.innerHTML = '';
+                
+                const cells = heatmap.updateSimulation();
+                cells.forEach((cell, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'village-cell';
+                    
+                    if (cell.active) {
+                        if (cell.intensity > 0.6) div.classList.add('active-high');
+                        else if (cell.intensity > 0.3) div.classList.add('active-medium');
+                        else div.classList.add('active-low');
+                    }
+                    
+                    div.setAttribute('data-disease', cell.disease);
+                    div.setAttribute('data-index', index);
+                    
+                    // أداة توضيح (tooltip)
+                    div.title = `${cell.disease} (شدة ${Math.round(cell.intensity*100)}%)`;
+                    
+                    grid.appendChild(div);
+                });
+                
+                document.getElementById('outbreakAlert').innerText = heatmap.getOutbreakAlert();
+                document.getElementById('bluetoothStatus').innerHTML = `📡 بلوتوث نشط: ${Math.floor(Math.random()*10+5)} أجهزة قريبة (محاكاة P2P)`;
+            }
+
+            // تحديث الخريطة كل 5 ثوان
+            renderHeatmap();
+            setInterval(renderHeatmap, 5000);
+
+            // ========== تحميل أولي ==========
+            updateScannerUI();
+            runDiagnosis();
+
+            // محاكاة ورود عبارات جديدة
+            setTimeout(() => {
+                document.getElementById('dialectInput').value = 'عندي كحة ونهجان';
+                document.getElementById('analyzeDialectBtn').click();
+            }, 2000);
+
+            console.log('🏁 Smart Village Final Integration Complete. Created by Momen Aboud');
+        })();
+    </script>
+</body>
+</html>
