@@ -1,9 +1,9 @@
+
 const CACHE_NAME = 'smart-village-v1';
 const urlsToCache = [
   '/smart-village/',
   '/smart-village/index.html',
-  '/smart-village/styles.css',  // اسم ملف الـ CSS بتاعك
-  '/smart-village/script.js',   // اسم ملف الـ JS بتاعك
+  '/smart-village/manifest.json',
   '/smart-village/icon-192.png',
   '/smart-village/icon-512.png'
 ];
