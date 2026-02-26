@@ -5,8 +5,8 @@
     "start_url": "/smart-village/",
     "scope": "/smart-village/",
     "display": "standalone",
-    "background_color": "#0A84FF",
-    "theme_color": "#0A84FF",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
     "icons": [
       {
         "src": "/smart-village/icon-192.png",
@@ -22,3 +22,4 @@
       }
     ]
   }
+
