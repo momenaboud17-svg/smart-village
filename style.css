@@ -12,8 +12,11 @@
 
 body {
     font-family: 'Cairo', 'Space Grotesk', sans-serif;
-    background: #0a0f1e;
-    color: #e0e4f0;
+    body, html {
+    background-color: #ffffff !important;
+    color: #000000; /* عشان الخط يبقى واضح */} ;
+
+    ;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
@@ -619,4 +622,5 @@ body.emergency-global {
 
 .app-footer strong {
     color: #ffd966;
+
 }
